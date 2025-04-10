@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Camera Access Demo</title>
+  <title>Camera Snapshot Sender</title>
 </head>
 <body>
-  <h2>Camera Access Example</h2>
-  <video id="video" width="320" height="240" autoplay></video>
+  <h2>Camera Snapshot with Consent</h2>
+  <video id="video" autoplay playsinline width="320" height="240"></video>
+  <br>
+  <button id="snap">Take & Send Snapshot</button>
+  <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
 
   <script>
-    // Ask for camera access
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
     navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function(stream) {
-        document.getElementById('video').srcObject = stream;
-      })
-      .catch(function(err) {
-        console.error("Camera access error:", err);
-        alert("Unable to access the camera. Please allow permission.");
+      .then(stream => {
+        video.srcObject = stream;
       });
+
+    document.getElementById('snap').addEventListener('click', () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL('image/png');
+
+      fetch('https://1a5db95b-8a3b-4978-ac42-1840713250de-00-1386ksupiyzmu.pike.replit.dev/ , {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageData })
+      })
+      .then(res => res.text())
+      .then(msg => alert(msg))
+      .catch(err => alert('Error sending image: ' + err));
+    });
   </script>
 </body>
 </html>
