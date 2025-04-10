@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Camera Access Demo</title>
+</head>
+<body>
+  <h2>Camera Access Example</h2>
+  <video id="video" width="320" height="240" autoplay></video>
+
+  <script>
+    // Ask for camera access
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        document.getElementById('video').srcObject = stream;
+      })
+      .catch(function(err) {
+        console.error("Camera access error:", err);
+        alert("Unable to access the camera. Please allow permission.");
+      });
+  </script>
+</body>
+</html>
